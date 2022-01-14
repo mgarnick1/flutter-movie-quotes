@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// import 'quote.dart';
+import 'quote.dart';
 
-Future<List<dynamic>> fetchQuotes() async {
-  final response = await http.get(Uri.parse('http://localhost:3001/quotes'));
+Future<List<Quote>> fetchQuotes() async {
+  final response = await http.get(Uri.parse('http://localhost:3001/quotes'),
+      headers: {'Content-Type': 'application/json'});
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var quotes = jsonDecode(response.body);
-    return quotes;
+    List quotes = jsonDecode(response.body);
+
+    return quotes.map((q) => Quote.fromJson(q)).toList();
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -26,7 +28,7 @@ class QuotesList extends StatefulWidget {
 }
 
 class _QuotesListState extends State<QuotesList> {
-  late Future<List<dynamic>> futureQuotes;
+  late Future<List<Quote>> futureQuotes;
 
   @override
   void initState() {
@@ -34,25 +36,10 @@ class _QuotesListState extends State<QuotesList> {
     futureQuotes = fetchQuotes();
   }
 
-  int _id(dynamic quote) {
-    return quote['id'];
-  }
-
-  String _quote(dynamic quote) {
-    return quote['quote'];
-  }
-
-  String _author(dynamic quote) {
-    return quote['author'];
-  }
-
-  String _actor(dynamic quote) {
-    return quote['actor'];
-  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
+    return FutureBuilder<List<Quote>>(
       future: futureQuotes,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
@@ -65,14 +52,14 @@ class _QuotesListState extends State<QuotesList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
-                      title: Text(_quote(snapshot.data[index])),
-                      subtitle: Text(_author(snapshot.data[index])),
+                      title: Text(snapshot.data[index].quote),
+                      subtitle: Text(snapshot.data[index].author),
                       isThreeLine: true,
                       dense: true,
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
-                      child: Text(_actor(snapshot.data[index])),
+                      child: Text(snapshot.data[index].actor),
                     ),
                   ],
                 ),
