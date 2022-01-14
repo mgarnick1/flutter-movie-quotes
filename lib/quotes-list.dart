@@ -62,13 +62,18 @@ class _QuotesListState extends State<QuotesList> {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
                       title: Text(_quote(snapshot.data[index])),
                       subtitle: Text(_author(snapshot.data[index])),
                       isThreeLine: true,
-                      trailing: Text(_actor(snapshot.data[index])),
-                    )
+                      dense: true,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
+                      child: Text(_actor(snapshot.data[index])),
+                    ),
                   ],
                 ),
               );
