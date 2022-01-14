@@ -36,42 +36,52 @@ class _QuotesListState extends State<QuotesList> {
     futureQuotes = fetchQuotes();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Quote>>(
-      future: futureQuotes,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(snapshot.data[index].quote),
-                      subtitle: Text(snapshot.data[index].author),
-                      isThreeLine: true,
-                      dense: true,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
-                      child: Text(snapshot.data[index].actor),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Flutter Movie Quotes')),
+      ),
+      backgroundColor: Colors.blueGrey,
+      body: FutureBuilder<List<Quote>>(
+        future: futureQuotes,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(snapshot.data[index].quote),
+                        subtitle: Text(snapshot.data[index].author),
+                        isThreeLine: true,
+                        dense: true,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
+                        child: Text(snapshot.data[index].actor),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => {},
+          backgroundColor: Colors.blueAccent,
+          tooltip: 'Add A Quote',
+          child: const Icon(Icons.add)),
     );
   }
 }

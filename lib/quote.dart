@@ -22,4 +22,14 @@ class Quote {
         actor: json['actor'],
         movieId: json['movie_id']);
   }
+
+  Map toMap() {
+    var map = Map();
+    map['quote'] = quote;
+    map['author'] = author;
+    map['actor'] = actor;
+    map['movie_id'] = movieId;
+
+    return map;
+  }
 }
