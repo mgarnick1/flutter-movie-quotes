@@ -1,4 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'quote.dart';
+
+Future<Quote> createQuote(String quote, String author, String actor) async {
+  return await http
+      .post(Uri.parse('http://localhost:3001/quotes/add'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'quote': quote,
+            'author': author,
+            'actor': actor
+          }))
+      .then((http.Response response) {
+    final int statusCode = response.statusCode;
+    if (statusCode < 200 || statusCode > 400) {
+      throw Exception("Error adding Quote");
+    }
+    return Quote.fromJson(json.decode(response.body));
+  });
+}
 
 class AddQuote extends StatefulWidget {
   const AddQuote({Key? key}) : super(key: key);
@@ -46,10 +70,15 @@ class _AddQuoteState extends State<AddQuote> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Adding Quote')));
+                      await createQuote(
+                        quoteController.text,
+                        authorController.text,
+                        actorController.text,
+                      );
                     }
                   },
                   child: const Text('Add Quote'),
