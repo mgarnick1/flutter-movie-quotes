@@ -32,8 +32,8 @@ class _QuotesListState extends State<QuotesList> {
 
   @override
   void initState() {
-    super.initState();
     futureQuotes = fetchQuotes();
+    super.initState();
   }
 
   @override

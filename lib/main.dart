@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: '/list',
         routes: {
-          '/': (context) => const QuotesList(),
+          '/list': (context) => const QuotesList(),
           '/add': (context) => AddQuote(),
         });
   }

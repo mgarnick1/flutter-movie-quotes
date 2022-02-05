@@ -4,23 +4,18 @@ import 'dart:convert';
 import 'dart:async';
 import 'quote.dart';
 
-Future<Quote> createQuote(String quote, String author, String actor) async {
+Future<Map<String, dynamic>> createQuote(Quote? body) async {
   return await http
       .post(Uri.parse('http://localhost:3001/quotes/add'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, String>{
-            'quote': quote,
-            'author': author,
-            'actor': actor
-          }))
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(body))
       .then((http.Response response) {
     final int statusCode = response.statusCode;
     if (statusCode < 200 || statusCode > 400) {
       throw Exception("Error adding Quote");
     }
-    return Quote.fromJson(json.decode(response.body));
+    Map<String, dynamic> newQuote = json.decode(response.body);
+    return newQuote;
   });
 }
 
@@ -74,11 +69,12 @@ class _AddQuoteState extends State<AddQuote> {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Adding Quote')));
-                      await createQuote(
-                        quoteController.text,
-                        authorController.text,
-                        actorController.text,
-                      );
+                      Quote newQuote = new Quote(
+                          quote: quoteController.text,
+                          author: authorController.text,
+                          actor: actorController.text);
+                      await createQuote(newQuote);
+                      Navigator.pushNamed(context, '/list');
                     }
                   },
                   child: const Text('Add Quote'),
