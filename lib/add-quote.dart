@@ -7,8 +7,7 @@ import 'quote.dart';
 Future<Map<String, dynamic>> createQuote(Quote? body) async {
   return await http
       .post(Uri.parse('http://localhost:3001/quotes/add'),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(body))
+          headers: {"Content-Type": "application/json"}, body: jsonEncode(body))
       .then((http.Response response) {
     final int statusCode = response.statusCode;
     if (statusCode < 200 || statusCode > 400) {
@@ -74,6 +73,9 @@ class _AddQuoteState extends State<AddQuote> {
                           author: authorController.text,
                           actor: actorController.text);
                       await createQuote(newQuote);
+                      quoteController.clear();
+                      authorController.clear();
+                      actorController.clear();
                       Navigator.pushNamed(context, '/list');
                     }
                   },
