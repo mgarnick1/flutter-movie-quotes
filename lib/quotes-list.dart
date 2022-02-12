@@ -61,10 +61,16 @@ class _QuotesListState extends State<QuotesList> {
                         isThreeLine: true,
                         dense: true,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
-                        child: Text(snapshot.data[index].actor),
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 15.0, bottom: 8.0, top: 0.0),
+                            child: Text(snapshot.data[index].actor),
+                          ),
+                          IconButton(onPressed: () => {}, icon: const Icon(Icons.edit))
+                        ],
+                      )
                     ],
                   ),
                 );
