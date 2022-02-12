@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_quotes/edit-quote.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'quote.dart';
@@ -65,10 +66,19 @@ class _QuotesListState extends State<QuotesList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 15.0, bottom: 8.0, top: 0.0),
+                            padding: EdgeInsets.only(
+                                left: 15.0, bottom: 8.0, top: 0.0),
                             child: Text(snapshot.data[index].actor),
                           ),
-                          IconButton(onPressed: () => {}, icon: const Icon(Icons.edit))
+                          IconButton(
+                              onPressed: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditQuote(
+                                                quote: snapshot.data[index])))
+                                  },
+                              icon: const Icon(Icons.edit))
                         ],
                       )
                     ],
