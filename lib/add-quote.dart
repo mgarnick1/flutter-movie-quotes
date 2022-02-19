@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'quote.dart';
-import 'package:flutter/src/material/back_button.dart';
+import 'back-button.dart';
 
 Future<Map<String, dynamic>> createQuote(Quote? body) async {
   return await http
@@ -83,7 +83,7 @@ class _AddQuoteState extends State<AddQuote> {
                   child: const Text('Add Quote'),
                 ),
               ),
-              _buildBackButton(context),
+              buildBackButton(context),
             ],
           ),
         ));
@@ -103,17 +103,5 @@ Padding _buildFormInputs(String hint, formKey, controller) {
       controller: controller,
       decoration: InputDecoration(border: OutlineInputBorder(), hintText: hint),
     ),
-  );
-}
-
-Row _buildBackButton(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      ElevatedButton.icon(
-          onPressed: () => Navigator.pushNamed(context, '/list'),
-          icon: const Icon(Icons.arrow_back),
-          label: const Text('Back'))
-    ],
   );
 }
