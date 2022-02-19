@@ -42,6 +42,7 @@ class _QuotesListState extends State<QuotesList> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Flutter Movie Quotes')),
+        automaticallyImplyLeading: false
       ),
       backgroundColor: Colors.blueGrey,
       body: FutureBuilder<List<Quote>>(
