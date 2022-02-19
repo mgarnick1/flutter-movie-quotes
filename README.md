@@ -1,6 +1,6 @@
 # flutter_movie_quotes
 
-A new Flutter project.
+This is an app that connects to some deno and nodejs api's that i created. This serves as the frontend for these apis. You can do basic crud operations, such as add, edit, delete, and get quotes. The APIs can be found here at [Deno Movie Quotes API](https://github.com/mgarnick1/deno-movie-quotes-api).
 
 ## Getting Started
 
